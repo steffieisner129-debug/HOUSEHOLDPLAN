@@ -75,143 +75,78 @@
   ],
   "basicsPool": [
     {
-      "id": "p-1788517456294-y4ndw",
+      "id": "p-1788787870077-p8szo",
+      "text": "Staubsaugen"
+    },
+    {
+      "id": "p-1788787870077-p4uyw",
+      "text": "Boden wischen"
+    },
+    {
+      "id": "p-1788787870077-tatfr",
+      "text": "Staubwischen"
+    },
+    {
+      "id": "p-1788787870077-ixc0d",
+      "text": "Oberflächen abwischen"
+    },
+    {
+      "id": "p-1788787870077-eqnns",
       "text": "Fenster putzen"
     },
     {
-      "id": "p-1788517456294-gp0hx",
+      "id": "p-1788787870077-2j3qz",
+      "text": "Toilette putzen"
+    },
+    {
+      "id": "p-1788787870077-73s02",
+      "text": "Dusche putzen"
+    },
+    {
+      "id": "p-1788787870077-929fc",
       "text": "Waschbecken putzen"
     },
     {
-      "id": "p-1788517456294-bbmfi",
+      "id": "p-1788787870077-28k4c",
+      "text": "Abwasch"
+    },
+    {
+      "id": "p-1788787870077-hzyin",
+      "text": "Geschirr wegräumen"
+    },
+    {
+      "id": "p-1788787870078-htrww",
       "text": "Essen vorbereiten"
     },
     {
-      "id": "p-1788517456294-u4n20",
+      "id": "p-1788787870078-d0ifq",
       "text": "Dunkle Wäsche waschen"
     },
     {
-      "id": "p-1788517456294-3aoxz",
+      "id": "p-1788787870078-23l97",
       "text": "Helle Wäsche waschen"
     },
     {
-      "id": "p-1788517456294-461u0",
+      "id": "p-1788787870078-4zhvo",
       "text": "Handtücher waschen"
     },
     {
-      "id": "p-1788517456294-oed8p",
+      "id": "p-1788787870078-qcfik",
+      "text": "Trockene Wäsche wegräumen"
+    },
+    {
+      "id": "p-1788787870078-0cki6",
       "text": "Pflanzen gießen"
     },
     {
-      "id": "p-1788517456294-o0b65",
+      "id": "p-1788787870078-305lc",
+      "text": "Müll rausbringen"
+    },
+    {
+      "id": "p-1788787870078-8pa16",
       "text": "Einkaufen"
     }
   ],
   "adhocPool": [],
-  "chips": [
-    {
-      "id": "c-1788517470729-swcj8",
-      "text": "Staubsaugen",
-      "day": "Freitag",
-      "assignee": "stef",
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788517489227-szbem",
-      "text": "Boden wischen",
-      "day": "Freitag",
-      "assignee": "stef",
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788517493659-8f88p",
-      "text": "Oberflächen abwischen",
-      "day": "Freitag",
-      "assignee": null,
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788517495742-20oxl",
-      "text": "Staubwischen",
-      "day": "Freitag",
-      "assignee": null,
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788517499513-qfckb",
-      "text": "Toilette putzen",
-      "day": "Freitag",
-      "assignee": null,
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788517525699-s1ryc",
-      "text": "Dusche putzen",
-      "day": "Freitag",
-      "assignee": null,
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788519341555-e54ky",
-      "text": "Müll rausbringen",
-      "day": "Freitag",
-      "assignee": null,
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788519347418-5jxff",
-      "text": "Trockene Wäsche wegräumen",
-      "day": "Freitag",
-      "assignee": null,
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788519356345-9jle2",
-      "text": "Geschirr wegräumen",
-      "day": "Sonntag",
-      "assignee": "stef",
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788519361414-v0vmt",
-      "text": "Abwasch",
-      "day": "Sonntag",
-      "assignee": "fabio",
-      "done": false,
-      "source": "basics"
-    },
-    {
-      "id": "c-1788519461696-v3e83",
-      "text": "Appointment Fregusia",
-      "day": "Freitag",
-      "assignee": "together",
-      "done": false,
-      "source": "adhoc"
-    },
-    {
-      "id": "c-1788519484523-oe28r",
-      "text": "GRAPES!!!!",
-      "day": "Samstag",
-      "assignee": "together",
-      "done": false,
-      "source": "adhoc"
-    },
-    {
-      "id": "c-1788520954066-fyi2a",
-      "text": "test neu",
-      "day": "Donnerstag",
-      "assignee": null,
-      "done": false,
-      "source": "adhoc"
-    }
-  ]
+  "chips": []
 }
