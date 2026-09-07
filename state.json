@@ -1,0 +1,217 @@
+{
+  "basicsRoster": [
+    {
+      "id": "p-1788517456294-s95yz",
+      "text": "Vacuum"
+    },
+    {
+      "id": "p-1788517456294-tg4rd",
+      "text": "Mop floors"
+    },
+    {
+      "id": "p-1788517456294-chzcr",
+      "text": "Dust"
+    },
+    {
+      "id": "p-1788517456294-s1vd6",
+      "text": "Wipe surfaces"
+    },
+    {
+      "id": "p-1788517456294-f5wsz",
+      "text": "Clean windows"
+    },
+    {
+      "id": "p-1788517456294-q4obd",
+      "text": "Clean toilet"
+    },
+    {
+      "id": "p-1788517456294-e7yco",
+      "text": "Clean shower"
+    },
+    {
+      "id": "p-1788517456294-lqg3f",
+      "text": "Clean sink"
+    },
+    {
+      "id": "p-1788517456294-jleal",
+      "text": "Do the dishes"
+    },
+    {
+      "id": "p-1788517456294-a2adz",
+      "text": "Put dishes away"
+    },
+    {
+      "id": "p-1788517456294-8x4wb",
+      "text": "Meal prep"
+    },
+    {
+      "id": "p-1788517456294-whjiv",
+      "text": "Wash dark laundry"
+    },
+    {
+      "id": "p-1788517456294-c1u3t",
+      "text": "Wash light laundry"
+    },
+    {
+      "id": "p-1788517456294-uaxgq",
+      "text": "Wash towels"
+    },
+    {
+      "id": "p-1788517456294-rzpdq",
+      "text": "Put away dried laundry"
+    },
+    {
+      "id": "p-1788517456294-ihhif",
+      "text": "Water the plants"
+    },
+    {
+      "id": "p-1788517456294-zdk4o",
+      "text": "Take out the trash"
+    },
+    {
+      "id": "p-1788517456294-8q3s8",
+      "text": "Groceries"
+    }
+  ],
+  "basicsPool": [
+    {
+      "id": "p-1788517456294-y4ndw",
+      "text": "Clean windows"
+    },
+    {
+      "id": "p-1788517456294-gp0hx",
+      "text": "Clean sink"
+    },
+    {
+      "id": "p-1788517456294-bbmfi",
+      "text": "Meal prep"
+    },
+    {
+      "id": "p-1788517456294-u4n20",
+      "text": "Wash dark laundry"
+    },
+    {
+      "id": "p-1788517456294-3aoxz",
+      "text": "Wash light laundry"
+    },
+    {
+      "id": "p-1788517456294-461u0",
+      "text": "Wash towels"
+    },
+    {
+      "id": "p-1788517456294-oed8p",
+      "text": "Water the plants"
+    },
+    {
+      "id": "p-1788517456294-o0b65",
+      "text": "Groceries"
+    }
+  ],
+  "adhocPool": [],
+  "chips": [
+    {
+      "id": "c-1788517470729-swcj8",
+      "text": "Vacuum",
+      "day": "Friday",
+      "assignee": "stef",
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517489227-szbem",
+      "text": "Mop floors",
+      "day": "Friday",
+      "assignee": "stef",
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517493659-8f88p",
+      "text": "Wipe surfaces",
+      "day": "Friday",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517495742-20oxl",
+      "text": "Dust",
+      "day": "Friday",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517499513-qfckb",
+      "text": "Clean toilet",
+      "day": "Friday",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517525699-s1ryc",
+      "text": "Clean shower",
+      "day": "Friday",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519341555-e54ky",
+      "text": "Take out the trash",
+      "day": "Friday",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519347418-5jxff",
+      "text": "Put away dried laundry",
+      "day": "Friday",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519356345-9jle2",
+      "text": "Put dishes away",
+      "day": "Sunday",
+      "assignee": "stef",
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519361414-v0vmt",
+      "text": "Do the dishes",
+      "day": "Sunday",
+      "assignee": "fabio",
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519461696-v3e83",
+      "text": "Appointment Fregusia",
+      "day": "Friday",
+      "assignee": "together",
+      "done": false,
+      "source": "adhoc"
+    },
+    {
+      "id": "c-1788519484523-oe28r",
+      "text": "GRAPES!!!!",
+      "day": "Saturday",
+      "assignee": "together",
+      "done": false,
+      "source": "adhoc"
+    },
+    {
+      "id": "c-1788520954066-fyi2a",
+      "text": "test neu",
+      "day": "Thursday",
+      "assignee": null,
+      "done": false,
+      "source": "adhoc"
+    }
+  ]
+}
