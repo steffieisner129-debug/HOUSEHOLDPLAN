@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haushaltsplan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<style>
+  :root{
+    --ink: #2A2438;
+    --ink-soft: #857E96;
+    --line: rgba(42,36,56,0.10);
+
+    --stef: #53DDD1;
+    --fabio: #F5A623;
+    --together: #E55C9A;
+
+    --bg1: #7F88B6;
+    --bg2: #514A5A;
+    --bg3: #A8789C;
+
+    --neutral-bg: #F1F1F7;
+    --neutral-line: #D7D8E6;
+
+    --page-bg: #ffffff;
+    --sync-live: #53DDD1;
+    --sync-off: #C9536A;
+    --sync-connecting: #C7C4D6;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body{ height: 100%; }
+
+  body{
+    margin:0;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    padding: 22px 14px 90px;
+    background: linear-gradient(150deg, #FFFFFF 0%, #FCFBFE 45%, #FFFFFF 100%);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .bg-decor{ position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .wave-mark{ position: fixed; left: 0; right: 0; bottom: 0; width: 100%; height: 46vh; opacity: 0.13; }
+
+  .wrap{ max-width: 1000px; margin: 0 auto; position: relative; }
+
+  header{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom: 10px; }
+  .title-group{ display:flex; align-items:center; gap: 9px; }
+  h1{ font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; margin: 0; }
+
+  .header-actions{ display:flex; align-items:center; gap: 12px; }
+
+  .sync-status{
+    display:flex; align-items:center; gap: 6px;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size: 11px;
+    color: var(--ink-soft); letter-spacing: 0.02em; white-space: nowrap;
+  }
+  .sync-dot{ width:7px; height:7px; border-radius:50%; background: var(--sync-connecting); flex-shrink:0; }
+  .sync-dot.live{ background: var(--sync-live); box-shadow: 0 0 0 3px rgba(83,221,209,0.22); }
+  .sync-dot.off{ background: var(--sync-off); }
+  .sync-dot.readonly{ background: var(--fabio); }
+
+  .reset-btn{
+    flex-shrink:0; border: none; background: var(--ink); color:#fff;
+    border-radius: 10px; padding: 9px 15px; font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size: 12.5px; cursor:pointer; white-space:nowrap;
+    box-shadow: 0 3px 10px rgba(42,36,56,0.18);
+  }
+
+  .legend{ display:flex; gap: 16px; margin-bottom: 16px; font-size: 12.5px; font-family:'Space Grotesk',sans-serif; font-weight:600; flex-wrap: wrap; }
+  .legend-item{ display:flex; align-items:center; gap:6px; }
+  .legend-dot{ width:11px; height:11px; border-radius:50%; }
+
+  .glass{
+    background: rgba(255,255,255,0.74);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 8px 28px rgba(42,36,56,0.07);
+  }
+
+  .lane{ border-radius: 18px; padding: 12px 14px; margin-bottom: 14px; }
+  .lane-label{
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size: 11px;
+    letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 8px;
+  }
+
+  .pool-bubbles{ display:flex; flex-wrap:wrap; gap: 8px; margin-bottom: 10px; }
+
+  .add-pool-row{ display:flex; gap: 7px; }
+  .add-pool-input{
+    flex:1; border:1px solid var(--neutral-line); border-radius: 20px;
+    padding: 7px 13px; font-size: 13px; font-family:'Inter',sans-serif; background: rgba(255,255,255,0.85);
+  }
+  .add-pool-btn{
+    border:none; background: var(--ink); color:#fff; border-radius: 20px;
+    padding: 7px 15px; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:12.5px; cursor:pointer;
+  }
+
+  .board{ display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 6px; }
+  @media (max-width: 760px){ .board{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px){ .board{ grid-template-columns: 1fr; } }
+
+  .day-col{ border-radius: 16px; padding: 11px; min-height: 110px; transition: background .12s ease; }
+  .day-col.drag-over{ background: rgba(229,92,154,0.10) !important; }
+
+  .day-name{
+    font-family:'Space Grotesk', sans-serif; font-weight: 700; font-size: 11.5px;
+    letter-spacing: 0.02em; margin-bottom: 8px; color: var(--ink-soft);
+  }
+
+  .bubble{
+    display:inline-flex; align-items:center; gap: 7px;
+    border-radius: 20px; padding: 6px 9px;
+    font-size: 12.5px; font-weight: 600;
+    cursor: grab; touch-action: none; user-select: none;
+    background: var(--neutral-bg);
+    border: 1.4px solid var(--neutral-line);
+    color: var(--ink);
+  }
+  .bubble i{ width:14px; height:14px; flex-shrink:0; }
+
+  .day-col .bubble{ display:flex; width:100%; margin-bottom: 6px; box-shadow: 0 2px 6px rgba(42,36,56,0.05); padding-right: 8px; }
+
+  .bubble.assign-stef{ background: var(--stef); border-color: var(--stef); }
+  .bubble.assign-fabio{ background: var(--fabio); border-color: var(--fabio); }
+  .bubble.assign-together{ background: var(--together); border-color: var(--together); color: #fff; }
+
+  .bubble.done{ opacity: 0.5; }
+  .bubble.done .bubble-text{ text-decoration: line-through; }
+
+  .bubble-check{
+    width: 20px; height: 20px; border-radius: 6px;
+    border: 1.6px solid rgba(42,36,56,0.28);
+    background: rgba(255,255,255,0.5);
+    flex-shrink: 0; position: relative;
+    display:flex; align-items:center; justify-content:center;
+    margin: -4px 0; cursor: pointer;
+  }
+  .bubble.assign-together .bubble-check{ border-color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.15); }
+  .bubble-check.checked{ background: rgba(42,36,56,0.55); }
+  .bubble.assign-together .bubble-check.checked{ background: rgba(255,255,255,0.85); }
+  .bubble-check.checked::after{
+    content:""; width:5px; height:9px;
+    border: solid #fff; border-width:0 1.6px 1.6px 0; transform: rotate(40deg) translate(-1px,-1px);
+  }
+  .bubble.assign-together .bubble-check.checked::after{ border-color: var(--together); }
+
+  .bubble-text{ flex:1; }
+
+  .chip-dup{
+    flex-shrink:0; width:16px; height:16px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    cursor: pointer; opacity: 0.6;
+  }
+  .chip-dup i{ width:12px; height:12px; }
+  .chip-dup:hover{ opacity: 1; }
+
+  .pool-del{
+    flex-shrink:0; width:14px; height:14px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 10px; color: var(--ink-soft); cursor: pointer; line-height:1;
+  }
+  .pool-del:hover{ color: var(--together); }
+
+  .drag-clone{ position: fixed; pointer-events: none; z-index: 999; opacity: 0.9; transform: translate(-50%, -50%) scale(1.03); }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink: #F1EEF7;
+      --ink-soft: #A9A2BC;
+      --line: rgba(241,238,247,0.12);
+      --neutral-bg: #2B2636;
+      --neutral-line: #3E3750;
+      --page-bg: #1B1723;
+    }
+    :root:not([data-theme="light"]) body{
+      background: linear-gradient(150deg, #1B1723 0%, #1F1A29 45%, #1B1723 100%);
+    }
+    :root:not([data-theme="light"]) .glass{
+      background: rgba(38,33,50,0.72);
+      border-color: rgba(255,255,255,0.08);
+    }
+    :root:not([data-theme="light"]) .add-pool-input{ background: rgba(38,33,50,0.85); color: var(--ink); }
+    :root:not([data-theme="light"]) .reset-btn{ background: #F1EEF7; color: #1B1723; }
+    :root:not([data-theme="light"]) .add-pool-btn{ background: #F1EEF7; color: #1B1723; }
+    :root:not([data-theme="light"]) .bubble-check{ background: rgba(0,0,0,0.2); }
+  }
+  :root[data-theme="dark"]{
+    --ink: #F1EEF7;
+    --ink-soft: #A9A2BC;
+    --line: rgba(241,238,247,0.12);
+    --neutral-bg: #2B2636;
+    --neutral-line: #3E3750;
+    --page-bg: #1B1723;
+  }
+  :root[data-theme="dark"] body{
+    background: linear-gradient(150deg, #1B1723 0%, #1F1A29 45%, #1B1723 100%);
+  }
+  :root[data-theme="dark"] .glass{
+    background: rgba(38,33,50,0.72);
+    border-color: rgba(255,255,255,0.08);
+  }
+  :root[data-theme="dark"] .add-pool-input{ background: rgba(38,33,50,0.85); color: var(--ink); }
+  :root[data-theme="dark"] .reset-btn{ background: #F1EEF7; color: #1B1723; }
+  :root[data-theme="dark"] .add-pool-btn{ background: #F1EEF7; color: #1B1723; }
+  :root[data-theme="dark"] .bubble-check{ background: rgba(0,0,0,0.2); }
+
+  .toast{
+    position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+    background: var(--ink); color: #fff; font-family:'Space Grotesk',sans-serif;
+    font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 20px;
+    opacity: 0; pointer-events: none; transition: opacity .25s ease; z-index: 1000;
+  }
+  .toast.show{ opacity: 0.92; }
+
+  .setup-overlay{
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(27,23,35,0.55); backdrop-filter: blur(4px);
+    display:flex; align-items:center; justify-content:center; padding: 20px;
+  }
+  .setup-overlay[hidden]{ display: none; }
+  .setup-card{
+    background: var(--page-bg); border-radius: 18px; padding: 26px 24px;
+    max-width: 360px; width:100%; box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  }
+  .setup-card h2{ font-family:'Space Grotesk',sans-serif; font-size: 17px; margin: 0 0 8px; color: var(--ink); }
+  .setup-card p{ font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin: 0 0 14px; }
+  .setup-card input{
+    width:100%; border:1px solid var(--neutral-line); border-radius: 10px;
+    padding: 10px 12px; font-size: 13px; font-family:'Inter',sans-serif;
+    background: rgba(255,255,255,0.9); color: var(--ink); margin-bottom: 12px;
+  }
+  .setup-card button{
+    width:100%; border:none; background: var(--ink); color:#fff;
+    border-radius: 10px; padding: 10px; font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size: 13px; cursor:pointer;
+  }
+  .setup-card .setup-error{ color: var(--sync-off); font-size: 12px; margin: -6px 0 12px; display:none; }
+  .gear-btn{
+    flex-shrink:0; border: none; background: transparent; color: var(--ink-soft);
+    cursor:pointer; padding: 4px; display:flex; align-items:center;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decor">
+  <svg class="wave-mark" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60 C 220,10 380,110 620,70 C 880,25 1080,120 1440,55 L1440,320 L0,320 Z" fill="#7F88B6"/>
+    <path d="M0,140 C 260,90 420,190 700,150 C 950,115 1150,205 1440,140 L1440,320 L0,320 Z" fill="#A8789C"/>
+    <path d="M0,220 C 240,175 460,255 760,215 C 1000,182 1200,250 1440,205 L1440,320 L0,320 Z" fill="#514A5A"/>
+  </svg>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="title-group">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M3 11L11 4l8 7" stroke="var(--together)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5 10v8h12v-8" stroke="var(--bg1)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="9.5" y="13" width="3" height="5" rx="0.5" stroke="var(--fabio)" stroke-width="1.6"/>
+      </svg>
+      <h1>Haushaltsplan</h1>
+    </div>
+    <div class="header-actions">
+      <div class="sync-status"><span class="sync-dot" id="syncDot"></span><span id="syncLabel">Verbinde…</span></div>
+      <button class="gear-btn" id="gearBtn" title="Zugangs-Code ändern">
+        <i data-feather="settings"></i>
+      </button>
+      <button class="reset-btn" id="resetBtn">Woche zurücksetzen</button>
+    </div>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--stef)"></span>Stefanie</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--fabio)"></span>Fábio</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--together)"></span>Beide</div>
+  </div>
+
+  <div class="lane glass">
+    <div class="lane-label">Feste Aufgaben</div>
+    <div class="pool-bubbles" id="basicsBubbles"></div>
+    <div class="add-pool-row">
+      <input class="add-pool-input" id="basicsInput" type="text" placeholder="Aufgabe hinzufügen…">
+      <button class="add-pool-btn" data-add-lane="basics">Add</button>
+    </div>
+  </div>
+
+  <div class="lane glass">
+    <div class="lane-label">Einmalig</div>
+    <div class="pool-bubbles" id="adhocBubbles"></div>
+    <div class="add-pool-row">
+      <input class="add-pool-input" id="adhocInput" type="text" placeholder="Aufgabe hinzufügen…">
+      <button class="add-pool-btn" data-add-lane="adhoc">Add</button>
+    </div>
+  </div>
+
+  <div class="board" id="board"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="setup-overlay" id="setupOverlay" hidden>
+  <div class="setup-card">
+    <h2>Einmaliger Zugangs-Code</h2>
+    <p>Den Code hast du von Stefanie bekommen. Einfach einfügen und speichern — das musst du auf diesem Gerät nur einmal machen.</p>
+    <div class="setup-error" id="setupError">Der Code hat nicht funktioniert. Bitte nochmal prüfen.</div>
+    <input type="password" id="setupInput" placeholder="Code einfügen…" autocomplete="off">
+    <button id="setupSaveBtn">Speichern</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SYNC-KONFIGURATION
+   ============================================================ */
+const GH_OWNER  = "steffieisner129-debug";     // dein GitHub-Benutzername
+const GH_REPO   = "HOUSEHOLDPLAN";      // z.B. "haushaltsplan"
+const GH_BRANCH = "main";
+const GH_PATH   = "state.json";
+const POLL_MS   = 4000;
+
+// Der Zugangs-Code steht NICHT im Quelltext (sonst sperrt GitHub ihn
+// automatisch, sobald die Datei öffentlich ist). Stattdessen wird er
+// einmalig pro Gerät im Browser gespeichert (localStorage) und nie
+// mitveröffentlicht.
+let GH_TOKEN = localStorage.getItem("hh_token") || "";
+/* ============================================================ */
+
+const DAYS = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"];
+const DEFAULT_BASICS = [
+  "Staubsaugen","Boden wischen","Staubwischen","Oberflächen abwischen","Fenster putzen","Toilette putzen","Dusche putzen","Waschbecken putzen",
+  "Abwasch","Geschirr wegräumen","Essen vorbereiten",
+  "Dunkle Wäsche waschen","Helle Wäsche waschen","Handtücher waschen","Trockene Wäsche wegräumen",
+  "Pflanzen gießen","Müll rausbringen","Einkaufen",
+];
+
+function iconFor(text){
+  const t = text.toLowerCase();
+  let name = "tag";
+  if(/staubsaug|wisch|fenster|toilette|dusche|waschbecken|staub/.test(t)) name = "droplet";
+  else if(/abwasch|geschirr|essen|kochen/.test(t)) name = "coffee";
+  else if(/wäsche|handtuch|wasch/.test(t)) name = "wind";
+  else if(/pflanze|müll|garten/.test(t)) name = "trash-2";
+  else if(/einkauf|markt/.test(t)) name = "shopping-cart";
+  return `<i data-feather="${name}"></i>`;
+}
+
+let basicsRoster = [];
+let basicsPool = [];
+let adhocPool = [];
+let chips = [];
+
+let lastSha = null;      // sha of the state.json blob we last loaded/saved
+let lastJson = null;     // string form of the state we last applied, to skip no-op re-renders
+let isDragging = false;
+let saveQueued = false;
+let pollTimer = null;
+
+function uid(prefix){ return prefix + "-" + Date.now() + "-" + Math.random().toString(36).slice(2,7); }
+
+function setSyncStatus(state){
+  const dot = document.getElementById("syncDot");
+  const label = document.getElementById("syncLabel");
+  dot.className = "sync-dot" + (state === "live" ? " live" : state === "off" ? " off" : state === "readonly" ? " readonly" : "");
+  label.textContent = state === "live" ? "Synchronisiert" : state === "off" ? "Nicht verbunden" : state === "readonly" ? "Nur lesen" : "Verbinde…";
+}
+
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._hideTimer);
+  t._hideTimer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+function defaultState(){
+  const roster = DEFAULT_BASICS.map(text => ({ id: uid("p"), text }));
+  return {
+    basicsRoster: roster,
+    basicsPool: roster.map(b => ({ id: uid("p"), text: b.text })),
+    adhocPool: [],
+    chips: [],
+  };
+}
+
+function b64EncodeUnicode(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function b64DecodeUnicode(str){
+  return decodeURIComponent(escape(atob(str.replace(/\n/g, ""))));
+}
+
+function currentState(){
+  return { basicsRoster, basicsPool, adhocPool, chips };
+}
+
+function applyState(data){
+  basicsRoster = (data && data.basicsRoster) || [];
+  basicsPool = (data && data.basicsPool) || [];
+  adhocPool = (data && data.adhocPool) || [];
+  chips = (data && data.chips) || [];
+  render();
+}
+
+/* ---------------- GitHub-Sync ---------------- */
+
+async function ghGet(){
+  const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${encodeURIComponent(GH_PATH)}?ref=${GH_BRANCH}&_=${Date.now()}`;
+  const headers = { "Accept": "application/vnd.github+json" };
+  if(GH_TOKEN) headers["Authorization"] = "Bearer " + GH_TOKEN; // Lesen geht auch ohne Code (öffentliches Repo)
+  const res = await fetch(url, { headers, cache: "no-store" });
+  if(res.status === 404){ return { missing: true }; }
+  if(!res.ok) throw new Error("GET " + res.status);
+  const json = await res.json();
+  const content = JSON.parse(b64DecodeUnicode(json.content));
+  return { sha: json.sha, content };
+}
+
+async function ghPut(newContentObj, shaForUpdate){
+  const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${encodeURIComponent(GH_PATH)}`;
+  const body = {
+    message: "update board " + new Date().toISOString(),
+    content: b64EncodeUnicode(JSON.stringify(newContentObj, null, 2)),
+    branch: GH_BRANCH,
+  };
+  if(shaForUpdate) body.sha = shaForUpdate;
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Authorization": "Bearer " + GH_TOKEN,
+      "Accept": "application/vnd.github+json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if(res.status === 409){
+    const e = new Error("conflict"); e.code = "conflict"; throw e;
+  }
+  if(res.status === 401 || res.status === 403){
+    const e = new Error("not_writer"); e.code = "not_writer"; throw e;
+  }
+  if(!res.ok){
+    const e = new Error("upstream " + res.status); e.code = "upstream_error"; throw e;
+  }
+  const json = await res.json();
+  return json.content.sha;
+}
+
+async function poll(){
+  try{
+    const result = await ghGet();
+    if(result.missing){
+      // Erstes Mal: Startzustand anlegen.
+      const seed = defaultState();
+      const sha = await ghPut(seed, null);
+      lastSha = sha;
+      lastJson = JSON.stringify(seed);
+      applyState(seed);
+      setSyncStatus("live");
+      return;
+    }
+    if(result.sha !== lastSha){
+      lastSha = result.sha;
+      const asString = JSON.stringify(result.content);
+      if(asString !== lastJson && !isDragging){
+        lastJson = asString;
+        applyState(result.content);
+      } else {
+        lastJson = asString;
+      }
+    }
+    setSyncStatus("live");
+  } catch(e){
+    console.error("poll error", e);
+    setSyncStatus("off");
+  }
+}
+
+async function save(){
+  if(!GH_TOKEN){ showSetup(); return; }
+  if(saveQueued) return;
+  saveQueued = true;
+  try{
+    const state = currentState();
+    const sha = await ghPut(state, lastSha);
+    lastSha = sha;
+    lastJson = JSON.stringify(state);
+    setSyncStatus("live");
+  } catch(e){
+    if(e && e.code === "conflict"){
+      // Jemand anders hat zuerst gespeichert — neuesten Stand holen und übernehmen.
+      try{
+        const result = await ghGet();
+        lastSha = result.sha;
+        lastJson = JSON.stringify(result.content);
+        applyState(result.content);
+        toast("Jemand anders hat gerade auch etwas geändert — Stand aktualisiert.");
+      } catch(e2){ setSyncStatus("off"); }
+    } else if(e && e.code === "not_writer"){
+      // Code fehlt oder ist ungültig — löschen und erneut abfragen.
+      localStorage.removeItem("hh_token");
+      GH_TOKEN = "";
+      setSyncStatus("readonly");
+      showSetup(true);
+    } else {
+      setSyncStatus("off");
+    }
+  } finally {
+    saveQueued = false;
+  }
+}
+
+function showSetup(withError){
+  const overlay = document.getElementById("setupOverlay");
+  const err = document.getElementById("setupError");
+  err.style.display = withError ? "block" : "none";
+  overlay.hidden = false;
+  document.getElementById("setupInput").focus();
+}
+function hideSetup(){
+  document.getElementById("setupOverlay").hidden = true;
+}
+
+/* ---------------- Rendering ---------------- */
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+
+function renderLane(containerId, arr, lane){
+  document.getElementById(containerId).innerHTML = arr.map(p => `
+    <div class="bubble" data-pool-id="${p.id}" data-lane="${lane}">
+      ${iconFor(p.text)}
+      <span class="bubble-text">${escapeHtml(p.text)}</span>
+      <span class="pool-del" data-pool-del="${p.id}" data-lane="${lane}">✕</span>
+    </div>
+  `).join("");
+}
+
+function render(){
+  renderLane("basicsBubbles", basicsPool, "basics");
+  renderLane("adhocBubbles", adhocPool, "adhoc");
+
+  const board = document.getElementById("board");
+  board.innerHTML = "";
+  DAYS.forEach(day => {
+    const dayChips = chips.filter(c => c.day === day)
+      .sort((a,b) => (a.done === b.done) ? 0 : (a.done ? 1 : -1));
+
+    const col = document.createElement("div");
+    col.className = "day-col glass";
+    col.dataset.day = day;
+    col.innerHTML = `
+      <div class="day-name">${day}</div>
+      ${dayChips.map(c => `
+        <div class="bubble ${c.assignee ? "assign-"+c.assignee : ""} ${c.done ? "done" : ""}" data-chip-id="${c.id}">
+          <div class="bubble-check ${c.done ? "checked" : ""}" data-check-id="${c.id}"></div>
+          ${iconFor(c.text)}
+          <span class="bubble-text">${escapeHtml(c.text)}</span>
+          <span class="chip-dup" data-chip-dup="${c.id}"><i data-feather="copy"></i></span>
+        </div>
+      `).join("")}
+    `;
+    board.appendChild(col);
+  });
+
+  if(window.feather) feather.replace({ width: 14, height: 14, 'stroke-width': 1.8 });
+}
+
+/* ---------------- Drag & Drop (Pointer Events) ---------------- */
+
+let dragState = null;
+const DRAG_THRESHOLD = 10;
+
+function endDragListeners(){
+  document.removeEventListener("pointermove", onDragMove);
+  document.removeEventListener("pointerup", onDragEnd);
+  document.removeEventListener("pointercancel", onDragCancel);
+}
+
+function startDrag(sourceEl, kind, payload, lane, pointerEvent){
+  if(dragState){
+    endDragListeners();
+    if(dragState.clone) dragState.clone.remove();
+    dragState = null;
+  }
+  isDragging = true;
+
+  const rect = sourceEl.getBoundingClientRect();
+  const clone = sourceEl.cloneNode(true);
+  clone.classList.add("drag-clone");
+  clone.style.width = rect.width + "px";
+  clone.querySelectorAll("[data-pool-del],[data-chip-dup]").forEach(el => el.remove());
+  document.body.appendChild(clone);
+
+  dragState = {
+    kind, payload, lane, clone,
+    pointerId: pointerEvent.pointerId, sourceEl,
+    startX: pointerEvent.clientX, startY: pointerEvent.clientY,
+    moved: false, lastOverEl: null,
+  };
+  moveClone(pointerEvent.clientX, pointerEvent.clientY);
+
+  try{ sourceEl.setPointerCapture(pointerEvent.pointerId); } catch(e){}
+
+  document.addEventListener("pointermove", onDragMove);
+  document.addEventListener("pointerup", onDragEnd);
+  document.addEventListener("pointercancel", onDragCancel);
+}
+
+function finishDrag(){
+  endDragListeners();
+  if(dragState){
+    if(dragState.sourceEl){
+      try{ dragState.sourceEl.releasePointerCapture(dragState.pointerId); } catch(e){}
+    }
+    if(dragState.clone) dragState.clone.remove();
+  }
+  dragState = null;
+  isDragging = false;
+}
+
+function onDragCancel(e){
+  if(!dragState || e.pointerId !== dragState.pointerId) return;
+  document.querySelectorAll(".day-col.drag-over").forEach(el => el.classList.remove("drag-over"));
+  finishDrag();
+}
+
+function moveClone(x, y){
+  if(dragState && dragState.clone){ dragState.clone.style.left = x + "px"; dragState.clone.style.top = y + "px"; }
+}
+
+function onDragMove(e){
+  if(!dragState || e.pointerId !== dragState.pointerId) return;
+  const dx = e.clientX - dragState.startX;
+  const dy = e.clientY - dragState.startY;
+  if(Math.hypot(dx, dy) > DRAG_THRESHOLD) dragState.moved = true;
+  moveClone(e.clientX, e.clientY);
+
+  dragState.clone.style.display = "none";
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  dragState.clone.style.display = "";
+
+  const dayCol = under ? under.closest(".day-col") : null;
+  if(dragState.lastOverEl && dragState.lastOverEl !== dayCol) dragState.lastOverEl.classList.remove("drag-over");
+  if(dayCol) dayCol.classList.add("drag-over");
+  dragState.lastOverEl = dayCol;
+}
+
+function onDragEnd(e){
+  if(!dragState || e.pointerId !== dragState.pointerId) return;
+  document.querySelectorAll(".day-col.drag-over").forEach(el => el.classList.remove("drag-over"));
+
+  if(dragState.moved){
+    dragState.clone.style.display = "none";
+    const under = document.elementFromPoint(e.clientX, e.clientY);
+    dragState.clone.style.display = "";
+    const dayCol = under ? under.closest(".day-col") : null;
+
+    if(dayCol){
+      const day = dayCol.dataset.day;
+      if(dragState.kind === "pool"){
+        const arr = dragState.lane === "basics" ? basicsPool : adhocPool;
+        const p = arr.find(x => x.id === dragState.payload);
+        if(p){
+          if(dragState.lane === "basics") basicsPool = basicsPool.filter(x => x.id !== dragState.payload);
+          else adhocPool = adhocPool.filter(x => x.id !== dragState.payload);
+          chips.push({ id: uid("c"), text: p.text, day, assignee: null, done:false, source: dragState.lane });
+        }
+      } else if(dragState.kind === "chip"){
+        const c = chips.find(x => x.id === dragState.payload);
+        if(c) c.day = day;
+      }
+      render(); save();
+    }
+  } else {
+    if(dragState.kind === "chip"){
+      const c = chips.find(x => x.id === dragState.payload);
+      if(c){
+        const order = [null, "stef", "fabio", "together"];
+        c.assignee = order[(order.indexOf(c.assignee)+1) % order.length];
+        render(); save();
+      }
+    }
+  }
+
+  finishDrag();
+}
+
+document.addEventListener("pointerdown", (e) => {
+  if(e.target.closest("[data-check-id]") || e.target.closest("[data-pool-del]") || e.target.closest("[data-chip-dup]")) {
+    e.stopPropagation();
+    return;
+  }
+  const poolBubble = e.target.closest("[data-pool-id]");
+  if(poolBubble){ startDrag(poolBubble, "pool", poolBubble.dataset.poolId, poolBubble.dataset.lane, e); return; }
+  const chipBubble = e.target.closest("[data-chip-id]");
+  if(chipBubble){ startDrag(chipBubble, "chip", chipBubble.dataset.chipId, null, e); return; }
+});
+
+document.addEventListener("click", (e) => {
+  const checkEl = e.target.closest("[data-check-id]");
+  if(checkEl){
+    const c = chips.find(x => x.id === checkEl.dataset.checkId);
+    if(c){ c.done = !c.done; render(); save(); }
+    return;
+  }
+  const dupEl = e.target.closest("[data-chip-dup]");
+  if(dupEl){
+    const c = chips.find(x => x.id === dupEl.dataset.chipDup);
+    if(c) chips.push({ id: uid("c"), text: c.text, day: c.day, assignee: c.assignee, done:false, source: c.source });
+    render(); save();
+    return;
+  }
+  const delBtn = e.target.closest("[data-pool-del]");
+  if(delBtn){
+    const lane = delBtn.dataset.lane;
+    if(lane === "basics"){
+      basicsRoster = basicsRoster.filter(x => x.id !== delBtn.dataset.poolDel);
+      basicsPool = basicsPool.filter(x => x.id !== delBtn.dataset.poolDel);
+    } else {
+      adhocPool = adhocPool.filter(x => x.id !== delBtn.dataset.poolDel);
+    }
+    render(); save();
+  }
+});
+
+document.querySelectorAll("[data-add-lane]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const lane = btn.dataset.addLane;
+    const input = document.getElementById(lane === "basics" ? "basicsInput" : "adhocInput");
+    const text = input.value.trim();
+    if(text){
+      if(lane === "basics"){
+        const id = uid("p");
+        basicsRoster.push({ id, text });
+        basicsPool.push({ id, text });
+      } else {
+        adhocPool.push({ id: uid("p"), text });
+      }
+      input.value = "";
+      render(); save();
+    }
+  });
+});
+["basicsInput","adhocInput"].forEach(id => {
+  document.getElementById(id).addEventListener("keydown", (e) => {
+    if(e.key === "Enter"){
+      const lane = id === "basicsInput" ? "basics" : "adhoc";
+      document.querySelector(`[data-add-lane="${lane}"]`).click();
+    }
+  });
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if(confirm("Woche für alle zurücksetzen? Feste Aufgaben werden neu aufgefüllt, einmalige Aufgaben verschwinden.")){
+    chips = [];
+    adhocPool = [];
+    basicsPool = basicsRoster.map(b => ({ id: uid("p"), text: b.text }));
+    render(); save();
+  }
+});
+
+/* ---------------- Setup-Code ---------------- */
+
+document.getElementById("gearBtn").addEventListener("click", () => showSetup(false));
+document.getElementById("setupSaveBtn").addEventListener("click", saveSetupCode);
+document.getElementById("setupInput").addEventListener("keydown", (e) => {
+  if(e.key === "Enter") saveSetupCode();
+});
+function saveSetupCode(){
+  const val = document.getElementById("setupInput").value.trim();
+  if(!val) return;
+  GH_TOKEN = val;
+  localStorage.setItem("hh_token", val);
+  document.getElementById("setupInput").value = "";
+  hideSetup();
+  save(); // pending Änderungen jetzt nachreichen
+}
+
+/* ---------------- Start ---------------- */
+
+(async function init(){
+  applyState(defaultState()); // sofort etwas zeigen, während geladen wird
+  await poll();
+  pollTimer = setInterval(poll, POLL_MS);
+})();
+</script>
+</body>
+</html>

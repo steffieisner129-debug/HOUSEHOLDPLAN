@@ -1,0 +1,217 @@
+{
+  "basicsRoster": [
+    {
+      "id": "p-1788517456294-s95yz",
+      "text": "Staubsaugen"
+    },
+    {
+      "id": "p-1788517456294-tg4rd",
+      "text": "Boden wischen"
+    },
+    {
+      "id": "p-1788517456294-chzcr",
+      "text": "Staubwischen"
+    },
+    {
+      "id": "p-1788517456294-s1vd6",
+      "text": "Oberflächen abwischen"
+    },
+    {
+      "id": "p-1788517456294-f5wsz",
+      "text": "Fenster putzen"
+    },
+    {
+      "id": "p-1788517456294-q4obd",
+      "text": "Toilette putzen"
+    },
+    {
+      "id": "p-1788517456294-e7yco",
+      "text": "Dusche putzen"
+    },
+    {
+      "id": "p-1788517456294-lqg3f",
+      "text": "Waschbecken putzen"
+    },
+    {
+      "id": "p-1788517456294-jleal",
+      "text": "Abwasch"
+    },
+    {
+      "id": "p-1788517456294-a2adz",
+      "text": "Geschirr wegräumen"
+    },
+    {
+      "id": "p-1788517456294-8x4wb",
+      "text": "Essen vorbereiten"
+    },
+    {
+      "id": "p-1788517456294-whjiv",
+      "text": "Dunkle Wäsche waschen"
+    },
+    {
+      "id": "p-1788517456294-c1u3t",
+      "text": "Helle Wäsche waschen"
+    },
+    {
+      "id": "p-1788517456294-uaxgq",
+      "text": "Handtücher waschen"
+    },
+    {
+      "id": "p-1788517456294-rzpdq",
+      "text": "Trockene Wäsche wegräumen"
+    },
+    {
+      "id": "p-1788517456294-ihhif",
+      "text": "Pflanzen gießen"
+    },
+    {
+      "id": "p-1788517456294-zdk4o",
+      "text": "Müll rausbringen"
+    },
+    {
+      "id": "p-1788517456294-8q3s8",
+      "text": "Einkaufen"
+    }
+  ],
+  "basicsPool": [
+    {
+      "id": "p-1788517456294-y4ndw",
+      "text": "Fenster putzen"
+    },
+    {
+      "id": "p-1788517456294-gp0hx",
+      "text": "Waschbecken putzen"
+    },
+    {
+      "id": "p-1788517456294-bbmfi",
+      "text": "Essen vorbereiten"
+    },
+    {
+      "id": "p-1788517456294-u4n20",
+      "text": "Dunkle Wäsche waschen"
+    },
+    {
+      "id": "p-1788517456294-3aoxz",
+      "text": "Helle Wäsche waschen"
+    },
+    {
+      "id": "p-1788517456294-461u0",
+      "text": "Handtücher waschen"
+    },
+    {
+      "id": "p-1788517456294-oed8p",
+      "text": "Pflanzen gießen"
+    },
+    {
+      "id": "p-1788517456294-o0b65",
+      "text": "Einkaufen"
+    }
+  ],
+  "adhocPool": [],
+  "chips": [
+    {
+      "id": "c-1788517470729-swcj8",
+      "text": "Staubsaugen",
+      "day": "Freitag",
+      "assignee": "stef",
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517489227-szbem",
+      "text": "Boden wischen",
+      "day": "Freitag",
+      "assignee": "stef",
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517493659-8f88p",
+      "text": "Oberflächen abwischen",
+      "day": "Freitag",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517495742-20oxl",
+      "text": "Staubwischen",
+      "day": "Freitag",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517499513-qfckb",
+      "text": "Toilette putzen",
+      "day": "Freitag",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788517525699-s1ryc",
+      "text": "Dusche putzen",
+      "day": "Freitag",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519341555-e54ky",
+      "text": "Müll rausbringen",
+      "day": "Freitag",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519347418-5jxff",
+      "text": "Trockene Wäsche wegräumen",
+      "day": "Freitag",
+      "assignee": null,
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519356345-9jle2",
+      "text": "Geschirr wegräumen",
+      "day": "Sonntag",
+      "assignee": "stef",
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519361414-v0vmt",
+      "text": "Abwasch",
+      "day": "Sonntag",
+      "assignee": "fabio",
+      "done": false,
+      "source": "basics"
+    },
+    {
+      "id": "c-1788519461696-v3e83",
+      "text": "Appointment Fregusia",
+      "day": "Freitag",
+      "assignee": "together",
+      "done": false,
+      "source": "adhoc"
+    },
+    {
+      "id": "c-1788519484523-oe28r",
+      "text": "GRAPES!!!!",
+      "day": "Samstag",
+      "assignee": "together",
+      "done": false,
+      "source": "adhoc"
+    },
+    {
+      "id": "c-1788520954066-fyi2a",
+      "text": "test neu",
+      "day": "Donnerstag",
+      "assignee": null,
+      "done": false,
+      "source": "adhoc"
+    }
+  ]
+}
